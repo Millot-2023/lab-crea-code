@@ -7,35 +7,27 @@
 - **Zéro initiative :** Je ne modifie jamais les couleurs, les classes ou l'organisation des fichiers sans ton accord préalable.
 - **Zéro Chirurgie :** On ne modifie pas un partiel validé. On crée une version v2 si nécessaire.
 - **Intégrité :** Toujours fournir les fichiers complets pour éviter les fragments cassés.
-- **Architecture SCSS :** Fichiers séparés par fonction (variables, typo, layout, components).
-- **Thématisation :** Dark Mode Hybride. Automatique (Système/Accessibilité) par défaut + Commutateur manuel (Liberté utilisateur).
+- **Architecture SCSS :** Système de modules Dart Sass (`@use`). Standard pérenne.
+- **Thématisation :** Dark Mode Hybride. Automatique (Système) + Commutateur manuel.
 - **Indépendance CSS :** Une classe unique par élément. Pas d'empilage de classes.
-- **Unités :** `rem` (contenu / accessibilité) et `px` (structure fixe / stabilité). Base 62.5% (1rem = 10px).
+- **Unités :** `rem` (contenu) et `px` (structure fixe). Base 62.5% (1rem = 10px).
 - **Responsive :** Desktop (3 col), Tablette (clic), Mobile (burger).
+- **Fix :** Alignement rail 1200px et centrage section Monk's.
 
 ## 1. Pilier : CRÉATION (Le Visuel)
 * **Logos & Identités**
-    * *Chartes et vectoriel*
 * **Illustrations**
-    * *Numérique et roughs*
 * **Retouches**
-    * *Traitement d'image pro*
 
 ## 2. Pilier : CONCEPTION (L'UX)
 * **Stratégie**
-    * *Modèles Personas & User Journeys*
 * **Maquettes & Prototypes**
-    * *UI haute fidélité et interactions*
 * **Design Systems**
-    * *Bibliothèques de composants*
 
 ## 3. Pilier : RESSOURCES (Le Code)
 * **Cards CSS (Libre-service)**
-    * *Composants prêts à copier-coller*
 * **Grilles & Layouts**
-    * *Structures Grid & Flexbox*
 * **Système REM**
-    * *Échelles typo et règles W3C*
 
 ## 4. Informations de Contact & Vie Privée
 - **Standard :** Lien `mailto:` pour accessibilité recrutement (ATS).
@@ -47,35 +39,37 @@
 ```text
 /root
 │
-├── index.html              # Fichier principal (appel des partiels)
+├── index.html           # Fichier principal
 │
 ├── /assets
-│   ├── /images             # Logos, Illustrations, Retouches
-│   └── /icons              # SVGs et icônes interface
+│   ├── /images          # Logos, Illustrations, Retouches
+│   └── /icons           # SVGs et icônes interface
 │
 ├── /src
 │   └── /scss
-│       ├── main.scss       # Point d'entrée (compilation finale)
-│       ├── /abstracts      # Configuration (variables, mixins, typo)
+│       ├── main.scss    # LE CHEF D'ORCHESTRE (Système @use)
+│       ├── /abstracts   # Configuration (Privée via @use)
+│       │   ├── _index.scss      # Point de relais des abstracts
 │       │   ├── _variables.scss
 │       │   ├── _typography.scss
 │       │   └── _functions.scss
-│       ├── /base           # Fondations (reset, base styles)
+│       ├── /base        # Fondations
 │       │   └── _reset.scss
-│       ├── /layout         # Squelette (header, footer, menu, grid)
+│       ├── /layout      # Squelette
 │       │   ├── _header.scss
 │       │   ├── _footer.scss
-│       │   └── _megamenu.scss
-│       └── /components     # Briques (cards, boutons, contact)
+│       │   ├── _megamenu.scss
+│       │   └── _layout.scss
+│       └── /components  # Briques
 │           ├── _cards.scss
 │           ├── _buttons.scss
 │           └── _contact-info.scss
 │
-└── /dist                   # Fichiers compilés (CSS final, images opti)
+└── /dist                # Fichiers compilés
     └── style.css
 ```
 
-## 6. Proposition d'Arborescence (Structure des Dossiers)
+## 6. architecture Mega-menu
 ```text
 [ BARRE DE NAVIGATION (Sticky) ]
 ├── LOGO (Retour Home)
@@ -131,3 +125,11 @@
 └── [ PIED DE MENU (Minimaliste) ]
     └── "Informations : contact[at]votre-domaine.com — Profil Professionnel"
 ```
+
+## 7. architecture Mega-menu
+
+[ CHOIX TECHNIQUE : DART SASS ]
+├── STANDARD : Abandon de @import (Méthode dépréciée)
+├── SOLUTION : Utilisation systématique de @use et @forward
+├── OBJECTIF : Zéro obsolescence technique & Modularité
+└── REGLE : Import local via abstracts/index dans chaque partiel
