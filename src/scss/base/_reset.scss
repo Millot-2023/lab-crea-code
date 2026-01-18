@@ -1,0 +1,47 @@
+@use '../abstracts' as *;
+
+/* ==========================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    // Établit 1rem = 10px (62.5% de 16px)
+    font-size: $base-font-size;
+    // Scroll fluide pour la navigation interne du book
+    scroll-behavior: smooth;
+}
+
+body {
+    // Typo de base
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    
+    // Couleurs de fond et de texte (Dark Mode)
+    background-color: $color-bg-main;
+    color: $color-text-main;
+    
+    // Gestion de la hauteur pour le footer en bas
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

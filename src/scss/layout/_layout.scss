@@ -1,0 +1,71 @@
+@use '../abstracts' as *;
+
+/* ==========================================================================
+   LAYOUT GÉNÉRAL (Squelette & Rail)
+   ========================================================================== */
+
+// 1. Structure globale du document
+body {
+  display: grid;
+  grid-template-areas: 
+    "header"
+    "main"
+    "footer";
+  grid-template-rows: auto 1fr auto; 
+  background-color: $color-bg-main;
+  color: $color-text-main;
+  transition: $transition-main;
+
+  // SWITCH MODE ACCESSIBILITÉ
+  &.is-accessible {
+    background-color: $acc-bg;
+    color: $acc-text;
+    font-size: calc(1rem * #{$acc-font-size-mod});
+    line-height: 1.8;
+    letter-spacing: 0.05rem;
+  }
+}
+
+header { grid-area: header; }
+main   { grid-area: main;   }
+footer { grid-area: footer; }
+
+// 2. Le Main : Le cœur du Book avec le Rail Monk's
+main {
+  display: grid;
+  // Grille : [marge gauche] | [rail 120rem] | [marge droite]
+  grid-template-columns: 
+    [full-start] minmax($gutter-mobile, 1fr) 
+    [main-start] minmax(0, $rail-width) [main-end] 
+    minmax($gutter-mobile, 1fr) [full-end];
+
+  // Par défaut, tous les enfants directs se logent dans le rail
+  & > * {
+    grid-column: main;
+    padding: $space-l 0; 
+  }
+
+  // 3. LA COMBINE : Image ou section plein bord (Full-bleed)
+  .full-width {
+    grid-column: full;
+    width: 100%;
+    
+    img {
+        width: 100%;
+        display: block;
+    }
+  }
+}
+
+// 4. Conteneur Flex pour tes cartes
+.flex-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap-grid;
+  justify-content: center; 
+
+  // Ajustement auto pour le mode accessibilité
+  .is-accessible & {
+    gap: calc(#{$gap-grid} * 1.5);
+  }
+}

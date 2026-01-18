@@ -1,0 +1,119 @@
+@use '../abstracts' as *;
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: $z-index-header;
+  width: 100%;
+  background-color: rgba($color-bg-main, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid $color-border;
+  height: 8rem;
+
+  .header-container {
+    max-width: $rail-width;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 $gutter-mobile;
+    display: flex;
+    justify-content: space-between; // Logo à gauche, Tools à droite
+    align-items: center;
+    position: relative; // Référence pour le tiroir absolute
+  }
+
+  .logo {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: $color-accent;
+    text-transform: uppercase;
+  }
+
+  .header-tools {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .tool-btn {
+      background: none;
+      border: 1px solid $color-border;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 25px;
+      height: 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+
+      .bar {
+        width: 100%;
+        height: 2px;
+        background-color: $color-text-main;
+        border-radius: 2px;
+      }
+    }
+  }
+
+  /* LE TIROIR (La solution au problème de "vrac") */
+  .main-nav {
+    position: absolute;
+    top: 8rem;
+    left: 0;
+    width: 100%;
+    background-color: $color-bg-surface;
+    border-bottom: 2px solid $color-accent;
+    display: none; // Masqué par défaut
+    z-index: 1000;
+
+    &.is-open {
+      display: block; // Affiché via JS
+    }
+
+    .nav-list {
+      max-width: $rail-width;
+      margin: 0 auto;
+      padding: 3rem $gutter-mobile;
+      list-style: none;
+
+      > li {
+        margin-bottom: 2rem;
+        > a {
+          font-size: 1.8rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          text-decoration: none;
+          color: $color-text-main;
+        }
+      }
+    }
+  }
+}
+
+/* Intérieur du Mega-menu */
+.megamenu-inner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+
+  .menu-col h3 {
+    font-size: 1.1rem;
+    color: $color-accent;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    li { font-size: 1.3rem; margin-bottom: 0.3rem; }
+  }
+}
