@@ -1,6 +1,8 @@
 <header class="main-header">
     <div class="header-container">
-        <div class="logo">LAB.CREA</div>
+        <div class="logo">
+            <a href="index.php">LAB.CREA</a>
+        </div>
 
         <nav class="main-nav" id="main-nav">
             <ul class="nav-list">
@@ -23,7 +25,6 @@
                         </div>
                     </div>
                 </li>
-
                 <li class="has-megamenu">
                     <a href="#">Conception</a>
                     <div class="megamenu">
@@ -43,7 +44,6 @@
                         </div>
                     </div>
                 </li>
-
                 <li class="has-megamenu">
                     <a href="#">Ressources</a>
                     <div class="megamenu">
@@ -68,8 +68,10 @@
 
         <div class="header-tools">
             <button id="toggle-accessibility" title="Mode Handicap">♿</button>
-            <button id="hamburger-trigger" class="hamburger">
-                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            <button id="hamburger-trigger" class="hamburger" aria-label="Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </button>
         </div>
     </div>

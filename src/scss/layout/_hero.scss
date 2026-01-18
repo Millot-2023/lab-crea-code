@@ -1,0 +1,23 @@
+@use '../abstracts/variables' as *;
+
+// Annulation stricte du padding de 4rem imposé par main > *
+main > .hero-fullscreen {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    height: calc(100vh - 8rem); // Plein écran moins le header
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333; // Couleur de test
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: $rail-width;
+    width: 100%;
+    padding: 0 $gutter-mobile;
+    text-align: center;
+    color: white;
+}

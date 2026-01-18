@@ -11,14 +11,14 @@
 <?php include 'includes/header.php'; ?>
 
     <main>
+        <figure class="full-width">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80" alt="Test plein bord">
+        </figure>
+
         <section>
             <h1>Bienvenue dans le Lab</h1>
             <p>Le rail de 1200px est désormais le seul garant de la structure centrale.</p>
         </section>
-
-        <figure class="full-width">
-            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80" alt="Test plein bord">
-        </figure>
 
         <section>
             <div class="flex-grid">
@@ -41,22 +41,47 @@
 <?php include 'includes/footer.php'; ?>
 
     <script>
-        const trigger = document.getElementById('hamburger-trigger');
-        const menu = document.getElementById('main-nav');
+        document.addEventListener('DOMContentLoaded', () => {
+            const trigger = document.getElementById('hamburger-trigger');
+            const menu = document.getElementById('main-nav');
+            const body = document.body;
 
-        if (trigger && menu) {
-            trigger.addEventListener('click', () => {
-                menu.classList.toggle('is-open');
-                trigger.classList.toggle('active');
-            });
-        }
+            // Gestion du Menu Mobile
+            if (trigger && menu) {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Utilisation des classes définies dans le SCSS
+                    trigger.classList.toggle('is-active');
+                    menu.classList.toggle('is-open');
 
-        const accBtn = document.getElementById('toggle-accessibility');
-        if (accBtn) {
-            accBtn.addEventListener('click', () => {
-                document.body.classList.toggle('is-accessible');
-            });
-        }
+                    // Bloque le scroll du site quand le menu est ouvert
+                    if (menu.classList.contains('is-open')) {
+                        body.style.overflow = 'hidden';
+                    } else {
+                        body.style.overflow = '';
+                    }
+                });
+
+                // Fermeture automatique si on clique sur un lien du menu
+                const links = menu.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        trigger.classList.remove('is-active');
+                        menu.classList.remove('is-open');
+                        body.style.overflow = '';
+                    });
+                });
+            }
+
+            // Gestion de l'Accessibilité
+            const accBtn = document.getElementById('toggle-accessibility');
+            if (accBtn) {
+                accBtn.addEventListener('click', () => {
+                    body.classList.toggle('is-accessible');
+                });
+            }
+        });
     </script>
 
 </body>

@@ -1,119 +1,186 @@
-@use '../abstracts' as *;
+@use '../abstracts/variables' as *;
 
-header {
-  position: sticky;
-  top: 0;
-  z-index: $z-index-header;
-  width: 100%;
-  background-color: rgba($color-bg-main, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid $color-border;
-  height: 8rem;
+/* ==========================================================================
+   HEADER - STRUCTURE MOBILE FULL-SCREEN + VISIBILITÉ SOUS-MENUS
+   ========================================================================== */
 
-  .header-container {
-    max-width: $rail-width;
-    height: 100%;
-    margin: 0 auto;
-    padding: 0 $gutter-mobile;
-    display: flex;
-    justify-content: space-between; // Logo à gauche, Tools à droite
-    align-items: center;
-    position: relative; // Référence pour le tiroir absolute
-  }
+.main-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 8rem;
+    background-color: $color-bg-surface;
+    border-bottom: 1px solid $color-border;
+    z-index: $z-index-header;
 
-  .logo {
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        width: 100% !important;
+        max-width: none !important; 
+        padding: 0 4rem;
+    }
+}
+
+.logo {
     font-size: 2.4rem;
     font-weight: 800;
     color: $color-accent;
-    text-transform: uppercase;
-  }
-
-  .header-tools {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-
-    .tool-btn {
-      background: none;
-      border: 1px solid $color-border;
-      padding: 0.5rem 0.8rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 25px;
-      height: 18px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-
-      .bar {
-        width: 100%;
-        height: 2px;
-        background-color: $color-text-main;
-        border-radius: 2px;
-      }
-    }
-  }
-
-  /* LE TIROIR (La solution au problème de "vrac") */
-  .main-nav {
-    position: absolute;
-    top: 8rem;
-    left: 0;
-    width: 100%;
-    background-color: $color-bg-surface;
-    border-bottom: 2px solid $color-accent;
-    display: none; // Masqué par défaut
-    z-index: 1000;
-
-    &.is-open {
-      display: block; // Affiché via JS
-    }
-
-    .nav-list {
-      max-width: $rail-width;
-      margin: 0 auto;
-      padding: 3rem $gutter-mobile;
-      list-style: none;
-
-      > li {
-        margin-bottom: 2rem;
-        > a {
-          font-size: 1.8rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          text-decoration: none;
-          color: $color-text-main;
-        }
-      }
-    }
-  }
+    z-index: 1100;
 }
 
-/* Intérieur du Mega-menu */
-.megamenu-inner {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin-top: 1rem;
-  padding-left: 1.5rem;
+/* NAVIGATION MOBILE */
+.main-nav {
+    @media (max-width: 1024px) {
+        position: fixed;
+        top: 8rem;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 8rem);
+        background-color: $color-bg-surface;
+        padding: 4rem 2rem;
+        display: none; 
+        overflow-y: auto;
+        z-index: 1000;
 
-  .menu-col h3 {
-    font-size: 1.1rem;
-    color: $color-accent;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-  
-  ul {
+        &.is-open {
+            display: block !important; 
+        }
+    }
+
+    @media (min-width: 1025px) {
+        display: flex;
+        position: static;
+    }
+}
+
+.nav-list {
+    display: flex;
     list-style: none;
+    margin: 0;
     padding: 0;
-    li { font-size: 1.3rem; margin-bottom: 0.3rem; }
-  }
+    gap: 3rem;
+
+    @media (max-width: 1024px) {
+        flex-direction: column;
+        gap: 4rem;
+    }
+}
+
+/* FORÇAGE VISIBILITÉ MEGAMENU EN MODE MOBILE */
+.has-megamenu {
+    position: relative;
+
+    // En Desktop : Au survol
+    @media (min-width: 1025px) {
+        padding: 2.5rem 0;
+        &:hover .megamenu { display: block; }
+    }
+}
+
+.megamenu {
+    // Par défaut caché pour le desktop
+    display: none;
+
+    // QUAND LE MENU MOBILE EST OUVERT : ON FORCE L'AFFICHAGE
+    @media (max-width: 1024px) {
+        .is-open & {
+            display: block !important;
+            position: static !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            padding-top: 1.5rem;
+        }
+    }
+
+    @media (min-width: 1025px) {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: $color-bg-surface;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 3rem;
+        min-width: 75rem;
+        z-index: $z-index-modal;
+    }
+}
+
+.megamenu-inner {
+    display: grid;
+    
+    @media (min-width: 1025px) {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+    }
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+.menu-col {
+    h3 {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+        color: $color-text-muted;
+
+        @media (max-width: 1024px) {
+            color: $color-accent; // Titre de colonne plus visible en mobile
+            font-size: 1.5rem;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        
+        li {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            
+            @media (max-width: 1024px) {
+                padding: 0.6rem 0;
+                border-bottom: 1px solid rgba(0,0,0,0.05);
+            }
+        }
+    }
+}
+
+/* LE BURGER */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1100;
+
+    @media (max-width: 1024px) { display: flex; }
+
+    .bar {
+        width: 100%;
+        height: 3px;
+        background-color: $color-text-main;
+        transition: 0.3s;
+    }
+
+    &.is-active {
+        .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .bar:nth-child(2) { opacity: 0; }
+        .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+    }
+}
+
+.header-tools {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }

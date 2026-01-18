@@ -1,0 +1,64 @@
+@use 'variables' as *;
+
+/* ==========================================================================
+   BUTTONS & LINKS - EFFETS DE SURVOL (Hover)
+   ========================================================================== */
+
+// Effet de soulignement glissant (Gauche -> Droite)
+// À appliquer sur les liens de la nav (.nav-list a)
+%link-underline-effect {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: $color-accent;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform $transition-main;
+    }
+
+    &:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+}
+
+// Application de l'effet aux liens de navigation
+.nav-list a {
+    @extend %link-underline-effect;
+    display: inline-block;
+    padding: $space-s $space-m;
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+
+// Style de bouton standard (Base robuste)
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 2.4rem;
+    background-color: $color-accent;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 0.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &:hover {
+        filter: brightness(1.1);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}

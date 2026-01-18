@@ -15,6 +15,7 @@ body {
   background-color: $color-bg-main;
   color: $color-text-main;
   transition: $transition-main;
+  min-height: 100vh;
 
   // SWITCH MODE ACCESSIBILITÉ
   &.is-accessible {
@@ -26,13 +27,13 @@ body {
   }
 }
 
-header { grid-area: header; }
-main   { grid-area: main;   }
+// Sécurisation des zones
+header { grid-area: header; width: 100%; z-index: $z-index-header; }
+main   { grid-area: main;   display: grid; } // On redéclare le grid ici pour la structure interne
 footer { grid-area: footer; }
 
 // 2. Le Main : Le cœur du Book avec le Rail Monk's
 main {
-  display: grid;
   // Grille : [marge gauche] | [rail 120rem] | [marge droite]
   grid-template-columns: 
     [full-start] minmax($gutter-mobile, 1fr) 
@@ -43,6 +44,20 @@ main {
   & > * {
     grid-column: main;
     padding: $space-l 0; 
+  }
+
+  // EXCEPTION : HERO FULL SCREEN
+  // On annule le padding et on force la largeur totale
+  & > .hero-fullscreen {
+    grid-column: full;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    min-height: calc(100vh - 8rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   // 3. LA COMBINE : Image ou section plein bord (Full-bleed)

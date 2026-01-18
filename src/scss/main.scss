@@ -1,3 +1,6 @@
 @use 'base/reset';
+@use 'abstracts/variables';
+@use 'abstracts/buttons';
 @use 'layout/layout';
-@use 'layout/header'; // <--- Nouveau
+@use 'layout/header';
+@use 'layout/hero';

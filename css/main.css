@@ -42,6 +42,72 @@ a {
 }
 
 /* ==========================================================================
+   BUTTONS & LINKS
+   ========================================================================== */
+.nav-list a {
+  position: relative;
+  text-decoration: none;
+  color: #1A1A1A;
+  font-weight: 500;
+  font-size: 1.6rem;
+  padding: 0.5rem 0;
+  -webkit-transition: color all 0.2s ease-in-out;
+  transition: color all 0.2s ease-in-out;
+}
+.nav-list a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #007BFF;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: right;
+          transform-origin: right;
+  -webkit-transition: -webkit-transform all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: -webkit-transform all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform all 0.3s cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-list a:hover {
+  color: #007BFF;
+}
+.nav-list a:hover::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+}
+
+.btn-primary {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 1.2rem 2.4rem;
+  background-color: #007BFF;
+  color: #FFFFFF;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  -webkit-transition: -webkit-filter all 0.2s ease-in-out;
+  transition: -webkit-filter all 0.2s ease-in-out;
+  transition: filter all 0.2s ease-in-out;
+  transition: filter all 0.2s ease-in-out, -webkit-filter all 0.2s ease-in-out;
+}
+.btn-primary:hover {
+  -webkit-filter: brightness(1.1);
+          filter: brightness(1.1);
+}
+
+/* ==========================================================================
    LAYOUT GÉNÉRAL (Squelette & Rail)
    ========================================================================== */
 body {
@@ -52,6 +118,7 @@ body {
   color: #1A1A1A;
   -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 100vh;
 }
 body.is-accessible {
   background-color: #FFFFFF;
@@ -63,10 +130,13 @@ body.is-accessible {
 
 header {
   grid-area: header;
+  width: 100%;
+  z-index: 1000;
 }
 
 main {
   grid-area: main;
+  display: grid;
 }
 
 footer {
@@ -74,12 +144,31 @@ footer {
 }
 
 main {
-  display: grid;
   grid-template-columns: [full-start] minmax(2rem, 1fr) [main-start] minmax(0, 120rem) [main-end] minmax(2rem, 1fr) [full-end];
 }
 main > * {
   grid-column: main;
   padding: 4rem 0;
+}
+main > .hero-fullscreen {
+  grid-column: full;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+  min-height: calc(100vh - 8rem);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 main .full-width {
   grid-column: full;
@@ -105,22 +194,19 @@ main .full-width img {
   gap: calc(3rem * 1.5);
 }
 
-header {
+/* ==========================================================================
+   HEADER - STRUCTURE MOBILE FULL-SCREEN + VISIBILITÉ SOUS-MENUS
+   ========================================================================== */
+.main-header {
   position: sticky;
   top: 0;
-  z-index: 1000;
   width: 100%;
-  background-color: rgba(248, 249, 250, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   height: 8rem;
-  /* LE TIROIR (La solution au problème de "vrac") */
+  background-color: #FFFFFF;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
-header .header-container {
-  max-width: 120rem;
-  height: 100%;
-  margin: 0 auto;
-  padding: 0 2rem;
+.main-header .header-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -130,34 +216,152 @@ header .header-container {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  position: relative;
+  height: 100%;
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 4rem;
 }
-header .logo {
+
+.logo {
   font-size: 2.4rem;
   font-weight: 800;
   color: #007BFF;
+  z-index: 1100;
+}
+
+/* NAVIGATION MOBILE */
+@media (max-width: 1024px) {
+  .main-nav {
+    position: fixed;
+    top: 8rem;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 8rem);
+    background-color: #FFFFFF;
+    padding: 4rem 2rem;
+    display: none;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+  .main-nav.is-open {
+    display: block !important;
+  }
+}
+@media (min-width: 1025px) {
+  .main-nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: static;
+  }
+}
+
+.nav-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 3rem;
+}
+@media (max-width: 1024px) {
+  .nav-list {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 4rem;
+  }
+}
+
+/* FORÇAGE VISIBILITÉ MEGAMENU EN MODE MOBILE */
+.has-megamenu {
+  position: relative;
+}
+@media (min-width: 1025px) {
+  .has-megamenu {
+    padding: 2.5rem 0;
+  }
+  .has-megamenu:hover .megamenu {
+    display: block;
+  }
+}
+
+.megamenu {
+  display: none;
+}
+@media (max-width: 1024px) {
+  .is-open .megamenu {
+    display: block !important;
+    position: static !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    padding-top: 1.5rem;
+  }
+}
+@media (min-width: 1025px) {
+  .megamenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    background: #FFFFFF;
+    -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    min-width: 75rem;
+    z-index: 2000;
+  }
+}
+
+.megamenu-inner {
+  display: grid;
+}
+@media (min-width: 1025px) {
+  .megamenu-inner {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+}
+@media (max-width: 1024px) {
+  .megamenu-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.menu-col h3 {
+  font-size: 1.4rem;
   text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  color: #6C757D;
 }
-header .header-tools {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  gap: 1.5rem;
+@media (max-width: 1024px) {
+  .menu-col h3 {
+    color: #007BFF;
+    font-size: 1.5rem;
+  }
 }
-header .header-tools .tool-btn {
-  background: none;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
+.menu-col ul {
+  list-style: none;
+  padding: 0;
 }
-header .header-tools .hamburger {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+.menu-col ul li {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+@media (max-width: 1024px) {
+  .menu-col ul li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* LE BURGER */
+.hamburger {
+  display: none;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -165,68 +369,72 @@ header .header-tools .hamburger {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  width: 25px;
-  height: 18px;
+  width: 30px;
+  height: 21px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  z-index: 1100;
 }
-header .header-tools .hamburger .bar {
+@media (max-width: 1024px) {
+  .hamburger {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+.hamburger .bar {
   width: 100%;
-  height: 2px;
+  height: 3px;
   background-color: #1A1A1A;
-  border-radius: 2px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
-header .main-nav {
-  position: absolute;
-  top: 8rem;
-  left: 0;
-  width: 100%;
-  background-color: #FFFFFF;
-  border-bottom: 2px solid #007BFF;
-  display: none;
-  z-index: 1000;
+.hamburger.is-active .bar:nth-child(1) {
+  -webkit-transform: translateY(9px) rotate(45deg);
+          transform: translateY(9px) rotate(45deg);
 }
-header .main-nav.is-open {
-  display: block;
+.hamburger.is-active .bar:nth-child(2) {
+  opacity: 0;
 }
-header .main-nav .nav-list {
-  max-width: 120rem;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-  list-style: none;
-}
-header .main-nav .nav-list > li {
-  margin-bottom: 2rem;
-}
-header .main-nav .nav-list > li > a {
-  font-size: 1.8rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #1A1A1A;
+.hamburger.is-active .bar:nth-child(3) {
+  -webkit-transform: translateY(-9px) rotate(-45deg);
+          transform: translateY(-9px) rotate(-45deg);
 }
 
-/* Intérieur du Mega-menu */
-.megamenu-inner {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.header-tools {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   gap: 2rem;
-  margin-top: 1rem;
-  padding-left: 1.5rem;
 }
-.megamenu-inner .menu-col h3 {
-  font-size: 1.1rem;
-  color: #007BFF;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
+
+main > .hero-fullscreen {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+  height: calc(100vh - 8rem);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #333;
+  position: relative;
+  overflow: hidden;
 }
-.megamenu-inner ul {
-  list-style: none;
-  padding: 0;
-}
-.megamenu-inner ul li {
-  font-size: 1.3rem;
-  margin-bottom: 0.3rem;
+
+.hero-content {
+  max-width: 120rem;
+  width: 100%;
+  padding: 0 2rem;
+  text-align: center;
+  color: white;
 }/*# sourceMappingURL=main.css.map */
