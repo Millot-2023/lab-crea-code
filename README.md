@@ -127,9 +127,10 @@
 ```
 
 ## 7. architecture Mega-menu
-
+```text
 [ CHOIX TECHNIQUE : DART SASS ]
 ├── STANDARD : Abandon de @import (Méthode dépréciée)
 ├── SOLUTION : Utilisation systématique de @use et @forward
 ├── OBJECTIF : Zéro obsolescence technique & Modularité
 └── REGLE : Import local via abstracts/index dans chaque partiel
+```
